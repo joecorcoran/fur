@@ -1,18 +1,8 @@
-require 'treetop'
-require 'pp'
-require_relative './nodes'
-require_relative './compiler'
+require_relative './fur'
 
-Treetop.load 'flua'
-parser = FluaParser.new
+input = <<-ff
+  id a { a }
+  id "hello"!
+ff
 
-input = <<-FLUA
-  (
-    (fn my-add-1 (x y) (add x y))
-    (my-add-1 1 2)
-  )
-FLUA
-
-program = parser.parse(input)
-ast = program.call
-pp Flua::Compiler.call(ast)
+puts Fur.eval(input)

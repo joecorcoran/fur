@@ -1,0 +1,37 @@
+grammar Fur
+  rule tree
+    exp+ <Tree>
+  end
+
+  rule exp
+    (function / exec / string / integer / identifier / space)
+  end
+
+  rule function
+    name:identifier params:(space / identifier)* '{' body:tree '}' <Function>
+  end
+
+  rule exec
+    name:identifier args:(string / integer / identifier / space)* '!' <Exec>
+  end
+
+  rule string
+    '"' body:[^"]* '"' <String>
+  end
+
+  rule integer
+    [\d]+ <Integer>
+  end
+
+  rule identifier
+    !reserved [\w]+ [\w\d\-_]* <Identifier>
+  end
+
+  rule reserved
+    [\{\}!]
+  end
+
+  rule space
+    [\s\t\n\r]+ <Space>
+  end
+end
