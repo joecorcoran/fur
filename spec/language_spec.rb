@@ -61,7 +61,7 @@ describe Fur do
     end
   end
 
-  context 'library' do
+  context 'stdlib' do
     context 'maths' do
       specify('add')      { expect(Fur(%q{add 1 2!})).to eq 3 }
       specify('subtract') { expect(Fur(%q{subtract 2 1!})).to eq 1 }
