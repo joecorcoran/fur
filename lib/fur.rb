@@ -1,6 +1,6 @@
 require 'treetop'
-require_relative './ast'
-require_relative './runtime'
+require_relative './fur/ast'
+require_relative './fur/runtime'
 
 module Fur
   def self.call(input)
@@ -13,8 +13,12 @@ module Fur
 
   def self.parser
     @parser ||= begin
-      Treetop.load 'fur'
+      Treetop.load(File.expand_path('../fur/fur', __FILE__))
       FurParser.new
     end
   end
+end
+
+def Fur(input)
+  Fur.call(input)
 end

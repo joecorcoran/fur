@@ -34,7 +34,7 @@ module Fur
       end
 
       def call(scope)
-        "\"#{@value}\""
+        @value
       end
     end
 
@@ -48,7 +48,7 @@ module Fur
       end
 
       def call(scope)
-        @value
+        @value.to_i
       end
     end
 
