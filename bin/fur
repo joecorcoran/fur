@@ -13,8 +13,8 @@ else
     begin
       result = Fur(input)
       puts("=> #{result}")
-    rescue RuntimeError
-      puts('error')
+    rescue Fur::Runtime::LookupError => e
+      puts("=> #{e.message}")
     end
   end
   loop do

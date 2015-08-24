@@ -195,7 +195,7 @@ module Fur
       end
 
       def get(name)
-        @register[name] || (@parent && @parent.get(name)) || raise("#{name} not found!")
+        @register[name] || (@parent && @parent.get(name)) || raise(LookupError.new(name))
       end
 
       def set(name, value)
@@ -220,6 +220,16 @@ module Fur
 
       def message
         "Expected #{@arg.inspect} to be a #{@type.name}"
+      end
+    end
+
+    class LookupError < StandardError
+      def initialize(name)
+        @name = name
+      end
+
+      def message
+        "Identifier #{@name} not found"
       end
     end
 
