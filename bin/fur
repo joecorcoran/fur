@@ -3,4 +3,21 @@
 $LOAD_PATH.unshift(File.expand_path('../../lib', __FILE__))
 require 'fur'
 
-puts Fur(ARGV.dup[0])
+if ARGV.length > 0
+  puts(Fur(ARGV.dup[0]))
+else
+  repl = ->(prompt) do
+    print(prompt)
+    input = gets.chomp!
+    exit if input == 'exit'
+    begin
+      result = Fur(input)
+      puts("=> #{result}")
+    rescue RuntimeError
+      puts('error')
+    end
+  end
+  loop do
+    repl.call("fur:#{Fur::VERSION}> ")
+  end
+end

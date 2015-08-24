@@ -1,6 +1,7 @@
 require 'treetop'
 require_relative './fur/ast'
 require_relative './fur/runtime'
+require_relative './fur/version'
 
 module Fur
   def self.call(input)
