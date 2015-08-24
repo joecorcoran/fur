@@ -7,6 +7,12 @@ module Fur
     end
   end
 
+  class Exp < Treetop::Runtime::SyntaxNode
+    def call
+      body.call
+    end
+  end
+
   class Function < Treetop::Runtime::SyntaxNode
     def call
       Runtime::Function.new(name.call, params.elements.map(&:call).compact, body.call)

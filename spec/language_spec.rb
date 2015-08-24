@@ -24,11 +24,21 @@ describe Fur do
         numbers {
           100
           200
-          300
         }
         numbers!
       fur
-      expect(Fur(input)).to eq 300
+      expect(Fur(input)).to eq 200
+    end
+
+    specify 'expressions can separated with semicolons or line breaks' do
+      input = <<-fur
+        phrases {
+          hi { "hello" }
+          "goodbye"; hi!
+        }
+        phrases!
+      fur
+      expect(Fur(input)).to eq "hello"
     end
   end
 

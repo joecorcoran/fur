@@ -4,7 +4,7 @@ grammar Fur
   end
 
   rule exp
-    (function / exec / string / integer / identifier / space)
+    body:(function / exec / string / integer / identifier / space) terminator? <Exp>
   end
 
   rule function
@@ -24,11 +24,15 @@ grammar Fur
   end
 
   rule identifier
-    !reserved [\w]+ [\w\d\-_]* <Identifier>
+    !reserved [a-zA-Z]+ [\w\d\-_]* <Identifier>
   end
 
   rule reserved
     [\{\}!]
+  end
+
+  rule terminator
+    [;\n]
   end
 
   rule space
