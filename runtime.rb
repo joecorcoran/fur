@@ -4,29 +4,6 @@ module Fur
       program.call(Base)
     end
 
-    class Scope
-      def initialize(parent = nil, &block)
-        @parent, @register = parent, {}
-        block.call(self) if block_given?
-      end
-
-      def get(name)
-        @register[name] || (@parent && @parent.get(name)) || raise("#{name} not found!")
-      end
-
-      def set(name, value)
-        @register[name] = value
-      end
-
-      def fork(&block)
-        fork = self.class.new(self)
-        block.call(fork) if block_given?
-        fork
-      end
-    end
-
-    Base = Scope.new
-
     class Tree
       include Enumerable
 
@@ -57,7 +34,7 @@ module Fur
       end
 
       def call(scope)
-        @value
+        "\"#{@value}\""
       end
     end
 
@@ -134,6 +111,84 @@ module Fur
         end
         function.body.call(function_scope)
       end
+    end
+
+    class Operator
+      def initialize(value)
+        @value = value
+      end
+
+      def inspect
+        "<Operator #{@value}>"
+      end
+
+      def call(scope)
+        @value
+      end
+    end
+
+    class Operation
+      include Enumerable
+
+      def initialize(children)
+        @children = children
+      end
+
+      def each(&block)
+        @children.each(&block)
+      end
+
+      def inspect
+        "<Operation children=#{@children.inspect}>"
+      end
+
+      def call(scope)
+        ruby = map { |child| child.call(scope) }.join(' ')
+        Kernel.eval(ruby)
+      end
+    end
+
+    class Scope
+      def initialize(parent = nil, &block)
+        @parent, @register = parent, {}
+        block.call(self) if block_given?
+      end
+
+      def get(name)
+        @register[name] || (@parent && @parent.get(name)) || raise("#{name} not found!")
+      end
+
+      def set(name, value)
+        @register[name] = value
+      end
+
+      def set_operation(name, operator)
+        set(name, Function.new(
+          Identifier.new(name),
+          [
+            Identifier.new(:a),
+            Identifier.new(:b)
+          ],
+          Operation.new([
+            Identifier.new(:a),
+            Operator.new(operator),
+            Identifier.new(:b)
+          ])
+        ))
+      end
+
+      def fork(&block)
+        fork = self.class.new(self)
+        block.call(fork) if block_given?
+        fork
+      end
+    end
+
+    Base = Scope.new do |scope|
+      scope.set_operation(:add, :+)
+      scope.set_operation(:subtract, :-)
+      scope.set_operation(:multiply, :*)
+      scope.set_operation(:divide, :/)
     end
   end
 end

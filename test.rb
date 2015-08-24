@@ -1,8 +1,8 @@
 require_relative './fur'
 
-input = <<-ff
-  id a { a }
-  id "hello"!
-ff
+input = <<-fur
+  double x { multiply x 2! }
+  double 5!
+fur
 
-puts Fur.eval(input)
+puts Fur.call(input)
