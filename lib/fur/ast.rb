@@ -39,7 +39,13 @@ module Fur
 
   class Identifier < Treetop::Runtime::SyntaxNode
     def call
-      Runtime::Identifier.new(text_value)
+      Runtime::Identifier.new(text_value.to_sym)
+    end
+  end
+
+  class Param < Treetop::Runtime::SyntaxNode
+    def call
+      Runtime::Param.new(name.text_value.to_sym, tag.text_value.to_sym)
     end
   end
 

@@ -59,16 +59,35 @@ module Fur
         @value = value
       end
 
-      def symbol
-        @symbol ||= @value.to_sym
-      end
-
       def inspect
         "<Identifier #{@value}>"
       end
 
       def call(scope)
-        scope.get(symbol).call(scope)
+        scope.get(@value).call(scope)
+      end
+    end
+
+    class Param
+      attr_reader :value, :tag
+
+      def initialize(value, tag)
+        @value, @tag = value, tag
+      end
+
+      def inspect
+        "<Param #{@value}:#{@tag}>"
+      end
+
+      def type
+        case @tag
+        when :int then Integer
+        when :str then String
+        end
+      end
+
+      def call(scope)
+        @value
       end
     end
 
@@ -83,12 +102,8 @@ module Fur
         "<Function name=#{@name.inspect} params=#{@params.inspect} body=#{@body.inspect}>"
       end
 
-      def param_names
-        @params.map(&:symbol)
-      end
-
       def call(scope)
-        scope.set(@name.symbol, self)
+        scope.set(@name.value, self)
       end
     end
 
@@ -103,13 +118,24 @@ module Fur
 
       def call(scope)
         function = @name.call(scope)
-        assigns = Hash[function.param_names.zip(@args)]
+        check_arg_types!(function)
+
+        param_names = function.params.map { |param| param.call(scope) }
+        assigns = Hash[param_names.zip(@args)]
         function_scope = scope.fork do |s|
           assigns.each do |name, value|
             s.set(name, value)
           end
         end
         function.body.call(function_scope)
+      end
+
+      private
+
+      def check_arg_types!(function)
+        function.params.map.with_index do |param, idx|
+          raise 'Invalid argument type' unless param.type === @args[idx]
+        end
       end
     end
 
@@ -162,19 +188,8 @@ module Fur
         @register[name] = value
       end
 
-      def set_operation(name, operator)
-        set(name, Function.new(
-          Identifier.new(name),
-          [
-            Identifier.new(:a),
-            Identifier.new(:b)
-          ],
-          Operation.new([
-            Identifier.new(:a),
-            Operator.new(operator),
-            Identifier.new(:b)
-          ])
-        ))
+      def set_function(name, params, &block)
+        set(name, Function.new(Identifier.new(name), params, block.call))
       end
 
       def fork(&block)
@@ -185,10 +200,18 @@ module Fur
     end
 
     Base = Scope.new do |scope|
-      scope.set_operation(:add, :+)
-      scope.set_operation(:subtract, :-)
-      scope.set_operation(:multiply, :*)
-      scope.set_operation(:divide, :/)
+      scope.set_function(:add, [Param.new(:a, :int), Param.new(:b, :int)]) do
+        Operation.new([Identifier.new(:a), Operator.new(:+), Identifier.new(:b)])
+      end
+      scope.set_function(:subtract, [Param.new(:a, :int), Param.new(:b, :int)]) do
+        Operation.new([Identifier.new(:a), Operator.new(:-), Identifier.new(:b)])
+      end
+      scope.set_function(:multiply, [Param.new(:a, :int), Param.new(:b, :int)]) do
+        Operation.new([Identifier.new(:a), Operator.new(:*), Identifier.new(:b)])
+      end
+      scope.set_function(:divide, [Param.new(:a, :int), Param.new(:b, :int)]) do
+        Operation.new([Identifier.new(:a), Operator.new(:/), Identifier.new(:b)])
+      end
     end
   end
 end

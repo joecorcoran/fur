@@ -13,7 +13,7 @@ describe Fur do
 
     specify 'with params' do
       input = <<-fur
-        id x { x }
+        id x:int { x }
         id 100!
       fur
       expect(Fur(input)).to eq 100

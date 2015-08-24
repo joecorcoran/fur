@@ -8,7 +8,7 @@ grammar Fur
   end
 
   rule function
-    name:identifier params:(space / identifier)* '{' body:tree '}' <Function>
+    name:identifier params:(space / param)* '{' body:tree '}' <Function>
   end
 
   rule exec
@@ -25,6 +25,14 @@ grammar Fur
 
   rule identifier
     !reserved [a-zA-Z]+ [\w\d\-_]* <Identifier>
+  end
+
+  rule param
+    name:(!reserved [a-zA-Z]+ [\w\d\-_]*) ':' tag:tag <Param>
+  end
+
+  rule tag
+    'int' / 'str'
   end
 
   rule reserved
