@@ -134,7 +134,7 @@ module Fur
 
       def check_arg_types!(function)
         function.params.map.with_index do |param, idx|
-          raise 'Invalid argument type' unless param.type === @args[idx]
+          raise TypeError.new(@args[idx], param.type) unless param.type === @args[idx]
         end
       end
     end
@@ -196,6 +196,16 @@ module Fur
         fork = self.class.new(self)
         block.call(fork) if block_given?
         fork
+      end
+    end
+
+    class TypeError < StandardError
+      def initialize(arg, type)
+        @arg, @type = arg, type
+      end
+
+      def message
+        "Expected #{@arg.inspect} to be a #{@type.name}"
       end
     end
 

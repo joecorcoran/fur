@@ -11,12 +11,20 @@ describe Fur do
       expect(Fur(input)).to eq "hello, world!"
     end
 
-    specify 'with params' do
+    specify 'with param' do
       input = <<-fur
         id x:int { x }
         id 100!
       fur
       expect(Fur(input)).to eq 100
+    end
+
+    specify 'with incorrect param type' do
+      input = <<-fur
+        id x:int { x }
+        id "oops"!
+      fur
+      expect { Fur(input) }.to raise_error(Fur::Runtime::TypeError)
     end
 
     specify 'return value is result of last expression' do
