@@ -48,6 +48,17 @@ describe Fur do
       fur
       expect(Fur(input)).to eq "hello"
     end
+
+    specify 'nested functions' do
+      input = <<-fur
+        one a:str {
+          two b:str { b }
+          two a!
+        }
+        one "nested"!
+      fur
+      expect(Fur(input)).to eq "nested"
+    end
   end
 
   context 'library' do

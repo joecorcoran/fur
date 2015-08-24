@@ -1,7 +1,7 @@
 module Fur
   module Runtime
     def self.call(program)
-      program.call(Base)
+      program.call(Base).to_rb
     end
 
     class Tree
@@ -34,6 +34,10 @@ module Fur
       end
 
       def call(scope)
+        self
+      end
+
+      def to_rb
         @value
       end
     end
@@ -48,6 +52,10 @@ module Fur
       end
 
       def call(scope)
+        self
+      end
+
+      def to_rb
         @value.to_i
       end
     end
@@ -118,7 +126,7 @@ module Fur
 
       def call(scope)
         function = @name.call(scope)
-        check_arg_types!(function)
+        check_arg_types!(function, scope)
 
         param_names = function.params.map { |param| param.call(scope) }
         assigns = Hash[param_names.zip(@args)]
@@ -132,9 +140,10 @@ module Fur
 
       private
 
-      def check_arg_types!(function)
+      def check_arg_types!(function, scope)
         function.params.map.with_index do |param, idx|
-          raise TypeError.new(@args[idx], param.type) unless param.type === @args[idx]
+          arg = @args[idx].call(scope)
+          raise TypeError.new(arg, param.type) unless param.type === arg
         end
       end
     end
@@ -149,6 +158,10 @@ module Fur
       end
 
       def call(scope)
+        self
+      end
+
+      def to_rb
         @value
       end
     end
@@ -156,8 +169,8 @@ module Fur
     class Operation
       include Enumerable
 
-      def initialize(children)
-        @children = children
+      def initialize(returns, children)
+        @returns, @children = returns, children
       end
 
       def each(&block)
@@ -165,12 +178,13 @@ module Fur
       end
 
       def inspect
-        "<Operation children=#{@children.inspect}>"
+        "<Operation returns=#{@returns} children=#{@children.inspect}>"
       end
 
       def call(scope)
-        ruby = map { |child| child.call(scope) }.join(' ')
-        Kernel.eval(ruby)
+        ruby = map { |child| child.call(scope).to_rb }.join(' ')
+        result = Kernel.eval(ruby)
+        @returns.new(result)
       end
     end
 
@@ -211,16 +225,16 @@ module Fur
 
     Base = Scope.new do |scope|
       scope.set_function(:add, [Param.new(:a, :int), Param.new(:b, :int)]) do
-        Operation.new([Identifier.new(:a), Operator.new(:+), Identifier.new(:b)])
+        Operation.new(Integer, [Identifier.new(:a), Operator.new(:+), Identifier.new(:b)])
       end
       scope.set_function(:subtract, [Param.new(:a, :int), Param.new(:b, :int)]) do
-        Operation.new([Identifier.new(:a), Operator.new(:-), Identifier.new(:b)])
+        Operation.new(Integer, [Identifier.new(:a), Operator.new(:-), Identifier.new(:b)])
       end
       scope.set_function(:multiply, [Param.new(:a, :int), Param.new(:b, :int)]) do
-        Operation.new([Identifier.new(:a), Operator.new(:*), Identifier.new(:b)])
+        Operation.new(Integer, [Identifier.new(:a), Operator.new(:*), Identifier.new(:b)])
       end
       scope.set_function(:divide, [Param.new(:a, :int), Param.new(:b, :int)]) do
-        Operation.new([Identifier.new(:a), Operator.new(:/), Identifier.new(:b)])
+        Operation.new(Integer, [Identifier.new(:a), Operator.new(:/), Identifier.new(:b)])
       end
     end
   end
