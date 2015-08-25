@@ -2,6 +2,30 @@ require 'spec_helper'
 require_relative '../lib/fur'
 
 describe Fur do
+  context 'expressions' do
+    specify 'separated by line breaks' do
+      input = <<-fur
+        1
+        2
+      fur
+      expect(Fur(input)).to eq 2
+    end
+
+    specify 'separated by semicolons' do
+      input = <<-fur
+        1; 2
+      fur
+      expect(Fur(input)).to eq 2
+    end
+
+    specify 'separated by parentheses' do
+      input = <<-fur
+        1 (2)
+      fur
+      expect(Fur(input)).to eq 2
+    end
+  end
+
   context 'functions' do
     specify 'without params' do
       input = <<-fur
@@ -27,7 +51,7 @@ describe Fur do
       expect { Fur(input) }.to raise_error(Fur::Runtime::TypeError)
     end
 
-    specify 'return value is result of last expression' do
+    specify 'return result of last expression' do
       input = <<-fur
         numbers {
           100
@@ -36,17 +60,6 @@ describe Fur do
         numbers!
       fur
       expect(Fur(input)).to eq 200
-    end
-
-    specify 'expressions can separated with semicolons or line breaks' do
-      input = <<-fur
-        phrases {
-          hi { "hello" }
-          "goodbye"; hi!
-        }
-        phrases!
-      fur
-      expect(Fur(input)).to eq "hello"
     end
 
     specify 'nested functions' do
@@ -58,6 +71,15 @@ describe Fur do
         one "nested"!
       fur
       expect(Fur(input)).to eq "nested"
+    end
+
+    specify 'passing a function as an argument' do
+      input = <<-fur
+        one { 1 }
+        two a:fun { a! }
+        two one!
+      fur
+      expect(Fur(input)).to eq 1
     end
   end
 

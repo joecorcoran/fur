@@ -15,6 +15,7 @@ module Fur
         case @tag
         when :int then Integer
         when :str then String
+        when :fun then Function
         end
       end
 

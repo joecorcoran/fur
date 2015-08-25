@@ -1,10 +1,18 @@
 grammar Fur
   rule tree
-    exp+ <Tree>
+    (pexp / exp)+ <Tree>
+  end
+
+  rule pexp
+    '(' body:(pexp / body) ')' <Exp>
   end
 
   rule exp
-    body:(function / exec / string / integer / identifier / space) terminator? <Exp>
+    body:body terminator? <Exp>
+  end
+
+  rule body
+    function / exec / string / integer / identifier / space
   end
 
   rule function
@@ -24,19 +32,19 @@ grammar Fur
   end
 
   rule identifier
-    !reserved [a-zA-Z]+ [\w\d\-_]* <Identifier>
+    !reserved [a-zA-Z]+ [\w\-_]* <Identifier>
   end
 
   rule param
-    name:(!reserved [a-zA-Z]+ [\w\d\-_]*) ':' tag:tag <Param>
-  end
-
-  rule tag
-    'int' / 'str'
+    name:(!reserved [a-zA-Z]+ [\w\-_]*) ':' tag:tag <Param>
   end
 
   rule reserved
-    [\{\}!]
+    '(' / ')' / '{' / '}' / '!' / tag
+  end
+
+  rule tag
+    'int' / 'str' / 'fun'
   end
 
   rule terminator
