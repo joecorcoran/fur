@@ -1,5 +1,5 @@
 %w{
-  errors exec function identifier integer operation operator param
+  boolean errors exec function identifier integer operation operator param
   scope string tree
 }.each { |file| require_relative("./runtime/#{file}") }
 

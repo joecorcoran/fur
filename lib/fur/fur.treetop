@@ -12,7 +12,7 @@ grammar Fur
   end
 
   rule body
-    function / exec / string / integer / identifier / space
+    function / exec / string / integer / boolean / identifier / space
   end
 
   rule function
@@ -20,7 +20,7 @@ grammar Fur
   end
 
   rule exec
-    name:identifier args:(pexp / function / string / integer / identifier / space)* '!' <Exec>
+    name:identifier args:(pexp / function / string / integer / boolean / identifier / space)* '!' <Exec>
   end
 
   rule string
@@ -35,16 +35,20 @@ grammar Fur
     !reserved [a-zA-Z]+ [\w\-_]* <Identifier>
   end
 
+  rule boolean
+    '#' ('t' / 'f') <Boolean>
+  end
+
   rule param
     name:(!reserved [a-zA-Z]+ [\w\-_]*) ':' tag:tag <Param>
   end
 
   rule reserved
-    '(' / ')' / '{' / '}' / '!' / tag
+    '(' / ')' / '{' / '}' / '!' / boolean / tag
   end
 
   rule tag
-    'int' / 'str' / 'fun'
+    'int' / 'str' / 'fun' / 'bln'
   end
 
   rule terminator

@@ -2,6 +2,22 @@ require 'spec_helper'
 require_relative '../lib/fur'
 
 describe Fur do
+  context 'literals' do
+    specify 'boolean' do
+      expect(Fur(%q{#t})).to eq true
+      expect(Fur(%q{#f})).to eq false
+    end
+
+    specify 'integer' do
+      expect(Fur(%q{1000})).to eq 1000
+      expect(Fur(%q{0010})).to eq 10
+    end
+
+    specify 'string' do
+      expect(Fur(%q{"un saludo"})).to eq "un saludo"
+    end
+  end
+
   context 'expressions' do
     specify 'separated by line breaks' do
       input = <<-fur
@@ -92,11 +108,11 @@ describe Fur do
 
     specify 'passing an expression as an argument' do
       input = <<-fur
-        hi { "hello" }
-        speak a:str { a }
-        speak (hi!)!
+        yes { #t }
+        agree a:bln { a }
+        agree (yes!)!
       fur
-      expect(Fur(input)).to eq "hello"
+      expect(Fur(input)).to eq true
     end
   end
 

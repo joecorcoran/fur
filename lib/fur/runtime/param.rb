@@ -16,6 +16,7 @@ module Fur
         when :int then Integer
         when :str then String
         when :fun then Function
+        when :bln then Boolean
         end
       end
 

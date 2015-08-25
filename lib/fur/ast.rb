@@ -47,6 +47,12 @@ module Fur
     end
   end
 
+  class Boolean < Treetop::Runtime::SyntaxNode
+    def call
+      Runtime::Boolean.new(text_value)
+    end
+  end
+
   class Param < Treetop::Runtime::SyntaxNode
     def call
       Runtime::Param.new(name.text_value.to_sym, tag.text_value.to_sym)
