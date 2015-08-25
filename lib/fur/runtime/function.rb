@@ -11,8 +11,12 @@ module Fur
         "<Function name=#{@name.inspect} params=#{@params.inspect} body=#{@body.inspect}>"
       end
 
+      def anon?
+        name.nil?
+      end
+
       def call(scope)
-        scope.set(@name.value, self)
+        anon? ? self : scope.set(@name.value, self)
       end
     end
   end

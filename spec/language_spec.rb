@@ -37,7 +37,7 @@ describe Fur do
 
     specify 'with param' do
       input = <<-fur
-        id x:int { x }
+        id a:int { a }
         id 100!
       fur
       expect(Fur(input)).to eq 100
@@ -73,13 +73,30 @@ describe Fur do
       expect(Fur(input)).to eq "nested"
     end
 
-    specify 'passing a function as an argument' do
+    specify 'passing a named function as an argument' do
       input = <<-fur
         one { 1 }
         two a:fun { a! }
         two one!
       fur
       expect(Fur(input)).to eq 1
+    end
+
+    specify 'passing an anonymous function as an argument' do
+      input = <<-fur
+        run a:fun { a "executed"! }
+        run -> b:str { b }!
+      fur
+      expect(Fur(input)).to eq "executed"
+    end
+
+    specify 'passing an expression as an argument' do
+      input = <<-fur
+        hi { "hello" }
+        speak a:str { a }
+        speak (hi!)!
+      fur
+      expect(Fur(input)).to eq "hello"
     end
   end
 

@@ -15,7 +15,11 @@ module Fur
 
   class Function < Treetop::Runtime::SyntaxNode
     def call
-      Runtime::Function.new(name.call, params.elements.map(&:call).compact, body.call)
+      Runtime::Function.new(
+        name.text_value == '->' ? nil : name.call,
+        params.elements.map(&:call).compact,
+        body.call
+      )
     end
   end
 

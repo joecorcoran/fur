@@ -16,11 +16,11 @@ grammar Fur
   end
 
   rule function
-    name:identifier params:(space / param)* '{' body:tree '}' <Function>
+    name:('->' / identifier) params:(space / param)* '{' body:tree '}' <Function>
   end
 
   rule exec
-    name:identifier args:(string / integer / identifier / space)* '!' <Exec>
+    name:identifier args:(pexp / function / string / integer / identifier / space)* '!' <Exec>
   end
 
   rule string
