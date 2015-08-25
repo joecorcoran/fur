@@ -116,8 +116,15 @@ describe Fur do
     end
   end
 
-  context 'stdlib' do
-    context 'maths' do
+  context 'core' do
+    context 'arithmetic' do
+      specify('add')      { expect(Fur(%q{add 1 2!})).to eq 3 }
+      specify('subtract') { expect(Fur(%q{subtract 2 1!})).to eq 1 }
+      specify('multiply') { expect(Fur(%q{multiply 2 2!})).to eq 4 }
+      specify('divide')   { expect(Fur(%q{divide 4 2!})).to eq 2 }
+    end
+
+    context 'comparison' do
       context 'equal' do
         specify { expect(Fur(%q{equal 1 1!})).to eq true }
         specify { expect(Fur(%q{equal 1 2!})).to eq false }
@@ -144,11 +151,6 @@ describe Fur do
         specify { expect(Fur(%q{gte 1 1!})).to eq true }
         specify { expect(Fur(%q{gte 0 1!})).to eq false }
       end
-
-      specify('add')      { expect(Fur(%q{add 1 2!})).to eq 3 }
-      specify('subtract') { expect(Fur(%q{subtract 2 1!})).to eq 1 }
-      specify('multiply') { expect(Fur(%q{multiply 2 2!})).to eq 4 }
-      specify('divide')   { expect(Fur(%q{divide 4 2!})).to eq 2 }
     end
   end
 end
