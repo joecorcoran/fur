@@ -118,6 +118,33 @@ describe Fur do
 
   context 'stdlib' do
     context 'maths' do
+      context 'equal' do
+        specify { expect(Fur(%q{equal 1 1!})).to eq true }
+        specify { expect(Fur(%q{equal 1 2!})).to eq false }
+      end
+
+      context 'lt' do
+        specify { expect(Fur(%q{lt 1 2!})).to eq true }
+        specify { expect(Fur(%q{lt 1 0!})).to eq false }
+      end
+
+      context 'gt' do
+        specify { expect(Fur(%q{gt 2 1!})).to eq true }
+        specify { expect(Fur(%q{gt 0 1!})).to eq false }
+      end
+
+      context 'lte' do
+        specify { expect(Fur(%q{lte 1 2!})).to eq true }
+        specify { expect(Fur(%q{lte 1 1!})).to eq true }
+        specify { expect(Fur(%q{lte 1 0!})).to eq false }
+      end
+
+      context 'gte' do
+        specify { expect(Fur(%q{gte 2 1!})).to eq true }
+        specify { expect(Fur(%q{gte 1 1!})).to eq true }
+        specify { expect(Fur(%q{gte 0 1!})).to eq false }
+      end
+
       specify('add')      { expect(Fur(%q{add 1 2!})).to eq 3 }
       specify('subtract') { expect(Fur(%q{subtract 2 1!})).to eq 1 }
       specify('multiply') { expect(Fur(%q{multiply 2 2!})).to eq 4 }
