@@ -18,7 +18,7 @@ module Fur
       Runtime::Function.new(
         name.text_value == '->' ? nil : name.call,
         params.elements.map(&:call).compact,
-        body.call
+        body.empty? ? nil : body.call
       )
     end
   end
@@ -26,6 +26,12 @@ module Fur
   class Exec < Treetop::Runtime::SyntaxNode
     def call
       Runtime::Exec.new(name.call, args.elements.map(&:call).compact)
+    end
+  end
+
+  class List < Treetop::Runtime::SyntaxNode
+    def call
+      Runtime::List.new(members.elements.map(&:call).compact)
     end
   end
 

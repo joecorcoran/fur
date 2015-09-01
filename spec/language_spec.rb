@@ -152,5 +152,31 @@ describe Fur do
         specify { expect(Fur(%q{gte 0 1!})).to eq false }
       end
     end
+
+    context 'lists' do
+      context 'head' do
+        specify { expect(Fur(%q{head [1 2 3]!})).to eq 1 }
+        specify { expect { Fur(%q{head []!}) }.to raise_error(Fur::Runtime::EmptyList) }
+      end
+
+      context 'tail' do
+        specify { expect(Fur(%q{tail [1 2 3]!})).to eq [2, 3] }
+        specify { expect { Fur(%q{tail []!}) }.to raise_error(Fur::Runtime::EmptyList) }
+      end
+
+      context 'last' do
+        specify { expect(Fur(%q{last [1 2 3]!})).to eq 3 }
+        specify { expect { Fur(%q{last []!}) }.to raise_error(Fur::Runtime::EmptyList) }
+      end
+
+      context 'map' do
+        specify 'list of integers' do
+          expect(Fur(%q{map [1 2 3] -> a:int { add a 1! }!})).to eq [2, 3, 4]
+        end
+        specify 'empty list' do
+          expect(Fur(%q{map [] -> {}!})).to eq []
+        end
+      end
+    end
   end
 end

@@ -11,12 +11,22 @@ module Fur
     end
 
     class LookupError < StandardError
-      def initialize(name)
-        @name = name
+      def initialize(identifier_name)
+        @identifier_name = identifier_name
       end
 
       def message
-        "Identifier #{@name} not found"
+        "Identifier #{@identifier_name} not found"
+      end
+    end
+
+    class EmptyList < StandardError
+      def initialize(function_name)
+        @function_name = function_name
+      end
+
+      def message
+        "#{@function_name} cannot accept an empty list"
       end
     end
   end

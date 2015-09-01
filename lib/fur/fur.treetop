@@ -12,15 +12,19 @@ grammar Fur
   end
 
   rule body
-    function / exec / string / integer / boolean / identifier / space
+    list / function / exec / string / integer / boolean / identifier / space
   end
 
   rule function
-    name:('->' / identifier) params:(space / param)* '{' body:tree '}' <Function>
+    name:('->' / identifier) params:(space / param)* '{' body:tree? '}' <Function>
   end
 
   rule exec
-    name:identifier args:(pexp / function / string / integer / boolean / identifier / space)* '!' <Exec>
+    name:identifier args:(pexp / list / function / string / integer / boolean / identifier / space)* '!' <Exec>
+  end
+
+  rule list
+    '[' members:(pexp / string / integer / boolean / identifier / space)* ']' <List>
   end
 
   rule string
@@ -48,7 +52,7 @@ grammar Fur
   end
 
   rule tag
-    'int' / 'str' / 'fun' / 'bln'
+    'int' / 'str' / 'fun' / 'bln' / 'lst'
   end
 
   rule terminator

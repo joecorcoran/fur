@@ -1,25 +1,28 @@
 module Fur
   module Runtime
     class Exec
-      def initialize(name, args)
-        @name, @args = name, args
+      def initialize(function, args)
+        @function, @args = function, args
       end
 
       def inspect
-        "<Exec name=#{@name.inspect} args=#{@args.inspect}>"
+        "<Exec function=#{@function.inspect} args=#{@args.inspect}>"
       end
 
       def call(scope)
-        function = @name.call(scope)
+        function = Function === @function ? @function : @function.call(scope)
+
         check_arg_types!(function, scope)
 
         param_names = function.params.map { |param| param.call(scope) }
         assigns = Hash[param_names.zip(@args)]
+
         function_scope = scope.fork do |s|
           assigns.each do |name, value|
-            s.set(name, value)
+            s.set(name, value.call(s))
           end
         end
+
         function.body.call(function_scope)
       end
 

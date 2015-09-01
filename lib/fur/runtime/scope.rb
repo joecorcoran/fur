@@ -1,9 +1,15 @@
 module Fur
   module Runtime
     class Scope
+      attr_reader :parent, :register
+
       def initialize(parent = nil, &block)
         @parent, @register = parent, {}
         block.call(self) if block_given?
+      end
+
+      def inspect
+        "<Scope #{@register.inspect}>"
       end
 
       def get(name)
