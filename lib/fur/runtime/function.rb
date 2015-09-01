@@ -8,7 +8,7 @@ module Fur
       end
 
       def inspect
-        "<Function name=#{@name.inspect} params=#{@params.inspect} body=#{@body.inspect}>"
+        "<Function #{@name.inspect} #{@params.inspect}>"
       end
 
       def anon?
@@ -17,6 +17,10 @@ module Fur
 
       def call(scope)
         anon? ? self : scope.set(@name.value, self)
+      end
+
+      def to_rb
+        self
       end
     end
   end

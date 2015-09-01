@@ -6,18 +6,22 @@ require 'fur'
 if ARGV.length > 0
   puts(Fur(ARGV.dup[0]))
 else
+  trap('INT') { puts; exit }
+  
   repl = ->(prompt) do
     print(prompt)
     input = gets.chomp!
+
+    next if input.empty?
     exit if input == 'exit'
+
     begin
       result = Fur(input)
-      puts("=> #{result}")
-    rescue Fur::Runtime::LookupError => e
-      puts("=> #{e.message}")
+      puts("=> #{result.inspect}")
+    rescue Fur::Runtime::Error => e
+      puts("=> #{e.inspect}")
     end
   end
-  loop do
-    repl.call("fur:#{Fur::VERSION}> ")
-  end
+
+  loop { repl.call("fur:#{Fur::VERSION}> ") }
 end

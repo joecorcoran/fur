@@ -1,6 +1,12 @@
 module Fur
   module Runtime
-    class TypeError < StandardError
+    class Error < StandardError
+      def inspect
+        "#{self.class.name}! #{message}"
+      end
+    end
+
+    class TypeError < Error
       def initialize(arg, type)
         @arg, @type = arg, type
       end
@@ -10,7 +16,7 @@ module Fur
       end
     end
 
-    class LookupError < StandardError
+    class LookupError < Error
       def initialize(identifier_name)
         @identifier_name = identifier_name
       end
@@ -20,7 +26,7 @@ module Fur
       end
     end
 
-    class EmptyList < StandardError
+    class EmptyList < Error
       def initialize(function_name)
         @function_name = function_name
       end
@@ -30,7 +36,7 @@ module Fur
       end
     end
 
-    class InvalidParamType < StandardError
+    class InvalidParamType < Error
       def initialize(tag)
         @tag = tag
       end
