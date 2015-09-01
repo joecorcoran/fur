@@ -15,9 +15,10 @@ module Fur
         case @tag
         when :int then Integer
         when :str then String
-        when :fun then Function
-        when :bln then Boolean
-        when :lst then List
+        when :fn then Function
+        when :bool then Boolean
+        when :list then List
+        else raise(InvalidParamType.new(@tag))
         end
       end
 

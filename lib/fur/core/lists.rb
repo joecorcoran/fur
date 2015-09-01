@@ -1,7 +1,7 @@
 module Fur
   module Core
     Lists = ->(context) do
-      context.set_function(:head, [Runtime::Param.new(:a, :lst)]) do
+      context.set_function(:head, [Runtime::Param.new(:a, :list)]) do
         ->(scope) do
           list = scope.get(:a)
           raise Runtime::EmptyList.new(:head) unless list.any?
@@ -9,7 +9,7 @@ module Fur
         end
       end
 
-      context.set_function(:tail, [Runtime::Param.new(:a, :lst)]) do
+      context.set_function(:tail, [Runtime::Param.new(:a, :list)]) do
         ->(scope) do
           list = scope.get(:a)
           raise Runtime::EmptyList.new(:tail) unless list.any?
@@ -19,7 +19,7 @@ module Fur
         end
       end
 
-      context.set_function(:last, [Runtime::Param.new(:a, :lst)]) do
+      context.set_function(:last, [Runtime::Param.new(:a, :list)]) do
         ->(scope) do
           list = scope.get(:a)
           raise Runtime::EmptyList.new(:last) unless list.any?
@@ -27,7 +27,7 @@ module Fur
         end
       end
 
-      context.set_function(:map, [Runtime::Param.new(:a, :lst), Runtime::Param.new(:b, :fun)]) do
+      context.set_function(:map, [Runtime::Param.new(:a, :list), Runtime::Param.new(:b, :fn)]) do
         ->(scope) do
           list, function = scope.get(:a).call(scope), scope.get(:b).call(scope)
           Runtime::List.new(

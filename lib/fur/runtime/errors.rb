@@ -29,5 +29,15 @@ module Fur
         "#{@function_name} cannot accept an empty list"
       end
     end
+
+    class InvalidParamType < StandardError
+      def initialize(tag)
+        @tag = tag
+      end
+
+      def message
+        "#{@tag} is not a valid parameter type"
+      end
+    end
   end
 end

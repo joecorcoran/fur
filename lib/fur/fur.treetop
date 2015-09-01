@@ -48,11 +48,11 @@ grammar Fur
   end
 
   rule reserved
-    '(' / ')' / '{' / '}' / '!' / boolean / tag
+    '(' / ')' / '{' / '}' / '!' / boolean
   end
 
   rule tag
-    'int' / 'str' / 'fun' / 'bln' / 'lst'
+    [a-z]+
   end
 
   rule terminator

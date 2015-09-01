@@ -67,6 +67,14 @@ describe Fur do
       expect { Fur(input) }.to raise_error(Fur::Runtime::TypeError)
     end
 
+    specify 'with invalid param type' do
+      input = <<-fur
+        nope a:qux { a }
+        nope 1!
+      fur
+      expect { Fur(input) }.to raise_error(Fur::Runtime::InvalidParamType)
+    end
+
     specify 'return result of last expression' do
       input = <<-fur
         numbers {
@@ -92,7 +100,7 @@ describe Fur do
     specify 'passing a named function as an argument' do
       input = <<-fur
         one { 1 }
-        two a:fun { a! }
+        two a:fn { a! }
         two one!
       fur
       expect(Fur(input)).to eq 1
@@ -100,7 +108,7 @@ describe Fur do
 
     specify 'passing an anonymous function as an argument' do
       input = <<-fur
-        run a:fun { a "executed"! }
+        run a:fn { a "executed"! }
         run -> b:str { b }!
       fur
       expect(Fur(input)).to eq "executed"
@@ -109,7 +117,7 @@ describe Fur do
     specify 'passing an expression as an argument' do
       input = <<-fur
         yes { #t }
-        agree a:bln { a }
+        agree a:bool { a }
         agree (yes!)!
       fur
       expect(Fur(input)).to eq true
@@ -173,6 +181,7 @@ describe Fur do
         specify 'list of integers' do
           expect(Fur(%q{map [1 2 3] -> a:int { add a 1! }!})).to eq [2, 3, 4]
         end
+
         specify 'empty list' do
           expect(Fur(%q{map [] -> {}!})).to eq []
         end
