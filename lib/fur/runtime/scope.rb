@@ -20,12 +20,8 @@ module Fur
         @register[name] = value
       end
 
-      def set_function(name, params, &block)
-        set(name, Function.new(Identifier.new(name), params, block.call))
-      end
-
       def add_library(library)
-        library.call(self)
+        library.each { |name, function| set(name, function) }
       end
 
       def fork(&block)

@@ -1,7 +1,7 @@
 require 'spec_helper'
 require_relative '../lib/fur'
 
-describe Fur do
+RSpec.describe Fur do
   context 'literals' do
     specify 'boolean' do
       expect(Fur(%q{#t})).to eq true

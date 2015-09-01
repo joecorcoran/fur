@@ -1,6 +1,6 @@
 %w{
-  boolean errors exec function identifier integer list
-  operation operator param scope string tree
+  boolean errors exec function identifier
+  integer library list param scope string tree
 }.each { |file| require_relative("./runtime/#{file}") }
 
 %w{
