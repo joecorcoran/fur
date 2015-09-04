@@ -2,3 +2,4 @@
 .DS_Store
 .rspec
 vendor/bundle
+lib/fur/core/include/lib*

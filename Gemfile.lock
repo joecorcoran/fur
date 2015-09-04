@@ -3,6 +3,7 @@ GEM
   specs:
     diff-lcs (1.2.5)
     polyglot (0.3.5)
+    rake (0.9.6)
     rspec (3.3.0)
       rspec-core (~> 3.3.0)
       rspec-expectations (~> 3.3.0)
@@ -23,5 +24,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  rake
   rspec
   treetop
+
+BUNDLED WITH
+   1.10.5

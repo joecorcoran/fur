@@ -133,9 +133,9 @@ RSpec.describe Fur do
     end
 
     context 'comparison' do
-      context 'equal' do
-        specify { expect(Fur(%q{equal 1 1!})).to eq true }
-        specify { expect(Fur(%q{equal 1 2!})).to eq false }
+      context 'eq' do
+        specify { expect(Fur(%q{eq 1 1!})).to eq true }
+        specify { expect(Fur(%q{eq 1 2!})).to eq false }
       end
 
       context 'lt' do

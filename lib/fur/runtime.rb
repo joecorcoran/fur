@@ -1,3 +1,5 @@
+require 'fiddle'
+
 %w{
   boolean errors exec function identifier
   integer library list param rust scope string tree
