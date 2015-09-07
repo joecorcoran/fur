@@ -1,8 +1,9 @@
 require 'fiddle'
+require 'ffi'
 
 %w{
-  boolean errors exec function identifier
-  integer library list param rust scope string tree
+  boolean errors exec free function identifier
+  integer library list param rust_library scope string tree
 }.each { |file| require_relative("./runtime/#{file}") }
 
 %w{

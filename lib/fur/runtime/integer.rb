@@ -5,12 +5,12 @@ module Fur
 
       attr_reader :value
 
-      def self.ffi_type
+      def self.ff_type
         Fiddle::TYPE_INT
       end
 
-      def self.from_ffi(ffi)
-        new(ffi)
+      def self.from_ff(ff)
+        new(ff)
       end
 
       def initialize(value)
@@ -29,7 +29,7 @@ module Fur
         @value.to_i
       end
 
-      def to_ffi
+      def to_ff
         @value.to_i
       end
 

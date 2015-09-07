@@ -163,7 +163,7 @@ RSpec.describe Fur do
 
     context 'lists' do
       context 'head' do
-        specify { expect(Fur(%q{head [1 2 3]!})).to eq 1 }
+        specify { expect(Fur(%q{head [3 2 1]!})).to eq 3 }
         specify { expect { Fur(%q{head []!}) }.to raise_error(Fur::Runtime::EmptyList) }
       end
 
@@ -173,7 +173,7 @@ RSpec.describe Fur do
       end
 
       context 'last' do
-        specify { expect(Fur(%q{last [1 2 3]!})).to eq 3 }
+        specify { expect(Fur(%q{last [4 5 6]!})).to eq 6 }
         specify { expect { Fur(%q{last []!}) }.to raise_error(Fur::Runtime::EmptyList) }
       end
 

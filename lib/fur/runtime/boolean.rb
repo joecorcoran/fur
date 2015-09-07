@@ -3,12 +3,12 @@ module Fur
     class Boolean
       attr_reader :value
 
-      def self.ffi_type
+      def self.ff_type
         Fiddle::TYPE_INT
       end
 
-      def self.from_ffi(ffi)
-        ffi == 1 ? new(:"#t") : new(:"#f")
+      def self.from_ff(ff)
+        ff == 1 ? new(:"#t") : new(:"#f")
       end
 
       def initialize(value)
@@ -31,7 +31,7 @@ module Fur
         symbol == :"#t"
       end
 
-      def to_ffi
+      def to_ff
         symbol == :"#t" ? 1 : 0
       end
     end

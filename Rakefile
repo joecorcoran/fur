@@ -1,9 +1,13 @@
+desc 'Build rust lib'
 task :compile do
-  rust_dir = 'lib/fur/core/rust'
-  include_dir = 'lib/fur/core/include'
-  Dir["#{rust_dir}/**/*.rs"].each do |lib|
-    sh "rustc #{lib} --crate-type=dylib --out-dir=#{include_dir}"
-  end
+  sh %Q{
+cd ./lib/rust/fur
+cargo clean
+cargo build
+  }.strip
 end
 
-task default: :compile
+require 'rspec/core/rake_task'
+RSpec::Core::RakeTask.new(:spec)
+
+task default: [:compile, :spec]

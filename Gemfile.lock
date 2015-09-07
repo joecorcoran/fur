@@ -2,6 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     diff-lcs (1.2.5)
+    ffi (1.9.10)
     polyglot (0.3.5)
     rake (0.9.6)
     rspec (3.3.0)
@@ -24,6 +25,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  ffi
   rake
   rspec
   treetop
