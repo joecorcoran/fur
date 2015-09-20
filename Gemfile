@@ -4,3 +4,5 @@ gem 'ffi'
 gem 'treetop'
 gem 'rake'
 gem 'rspec'
+gem 'guard-rake'
+
