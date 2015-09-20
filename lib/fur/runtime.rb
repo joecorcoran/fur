@@ -1,5 +1,5 @@
 require 'fiddle'
-require 'ffi'
+require 'fiddle/import'
 
 %w{
   boolean errors exec free function identifier

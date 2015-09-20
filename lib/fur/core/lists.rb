@@ -5,28 +5,27 @@ module Fur
       extend Runtime::RustLibrary
 
       rust('libfur') do
-        ff('head', [Runtime::List, Runtime::Integer], Runtime::Integer)
-        ff('last', [Runtime::List, Runtime::Integer], Runtime::Integer)
+        ff('head', [Runtime::List], Runtime::Integer)
+        ff('tail', [Runtime::List], Runtime::List)
+        ff('last', [Runtime::List], Runtime::Integer)
       end
 
       define_function(:head, [Runtime::Param.new(:a, :list)]) do |scope|
         list = scope.get(:a)
         raise Runtime::EmptyList.new(:head) unless list.any?
-        Runtime::Integer.new(head.call(list.to_ff, list.length))
+        Runtime::Integer.from_ff(head.call(list.to_ff))
       end
 
       define_function(:tail, [Runtime::Param.new(:a, :list)]) do |scope|
         list = scope.get(:a)
         raise Runtime::EmptyList.new(:tail) unless list.any?
-        Runtime::List.new(
-          list.members[1..-1].map { |member| member.call(scope) }
-        )
+        Runtime::List.from_ff(tail.call(list.to_ff))
       end
 
       define_function(:last, [Runtime::Param.new(:a, :list)]) do |scope|
         list = scope.get(:a)
         raise Runtime::EmptyList.new(:last) unless list.any?
-        Runtime::Integer.new(last.call(list.to_ff, list.length))
+        Runtime::Integer.from_ff(last.call(list.to_ff))
       end
 
       define_function(:map, [Runtime::Param.new(:a, :list), Runtime::Param.new(:b, :fn)]) do |scope|

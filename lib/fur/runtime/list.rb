@@ -9,8 +9,18 @@ module Fur
         Fiddle::TYPE_VOIDP
       end
 
-      def self.from_ff(ffi)
-        raise 'dunno yet'
+      def self.from_ff(pointer)
+        struct = struct_class.new(pointer)
+        members = struct.data[0, Fiddle::SIZEOF_INT * struct.size].unpack('l*')
+        new(members.map { |member| Runtime::Integer.new(member) })
+      end
+      
+      def self.struct_class
+        Fiddle::CStructBuilder.create(
+          Fiddle::CStruct,
+          [Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP],
+          ['size', 'data']
+        )
       end
 
       def initialize(members)
@@ -38,14 +48,12 @@ module Fur
       end
 
       def to_ff
-        tmp = to_rb
-        @pointer = Fiddle::Pointer.malloc(Fiddle::SIZEOF_INT * tmp.length, Free)
-        tmp.each.with_index do |member, idx|
-          offset = idx == 0 ? idx : idx * Fiddle::SIZEOF_INT
-          @pointer[offset] = member
-        end
-        @pointer
+        struct = self.class.struct_class.malloc
+        struct.size = length
+        struct.data = to_rb.pack('l*')
+        struct
       end
+
     end
   end
 end
