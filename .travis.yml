@@ -1,0 +1,7 @@
+sudo: required
+language: ruby
+rvm:
+  - 2.3.0
+before_install:
+  - "curl -sSf https://static.rust-lang.org/rustup.sh | sh"
+script: bundle exec rake
