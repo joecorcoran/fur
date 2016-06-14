@@ -24,7 +24,7 @@ grammar Fur
   end
 
   rule list
-    '[' members:(pexp / string / integer / boolean / identifier / space)* ']' <List>
+    '[' members:(pexp / list / string / integer / boolean / identifier / space)* ']' <List>
   end
 
   rule string

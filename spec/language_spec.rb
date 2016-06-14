@@ -16,6 +16,11 @@ RSpec.describe Fur do
     specify 'string' do
       expect(Fur(%q{"un saludo"})).to eq "un saludo"
     end
+
+    specify 'int list' do
+      expect(Fur(%q{[1 2]})).to eq [1, 2]
+      expect(Fur(%q{[1 [2 3]]})).to eq [1, [2, 3]]
+    end
   end
 
   context 'expressions' do
