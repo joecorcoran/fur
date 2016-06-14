@@ -31,7 +31,7 @@ module Fur
 
   class List < Treetop::Runtime::SyntaxNode
     def call
-      Runtime::List.new(members.elements.map(&:call).compact)
+      Runtime::List::Integer.new(members.elements.map(&:call).compact)
     end
   end
 

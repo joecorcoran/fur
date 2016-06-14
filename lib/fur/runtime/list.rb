@@ -5,20 +5,32 @@ module Fur
 
       attr_reader :members
 
+      def self.member_ff_type
+        raise NotImplementedError
+      end
+
+      def self.member_ff_size
+        raise NotImplementedError
+      end
+
+      def self.member_runtime_type
+        raise NotImplementedError
+      end
+
       def self.ff_type
         Fiddle::TYPE_VOIDP
       end
 
       def self.from_ff(pointer)
         struct = struct_class.new(pointer)
-        members = struct.data[0, Fiddle::SIZEOF_INT * struct.size].unpack('l*')
-        new(members.map { |member| Runtime::Integer.new(member) })
+        members = struct.data[0, member_ff_size * struct.size].unpack('l*')
+        new(members.map { |member| member_runtime_type.new(member) })
       end
       
       def self.struct_class
         Fiddle::CStructBuilder.create(
           Fiddle::CStruct,
-          [Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP],
+          [member_ff_type, Fiddle::TYPE_VOIDP],
           ['size', 'data']
         )
       end

@@ -3,7 +3,7 @@ require 'fiddle/import'
 
 %w{
   boolean errors exec free function identifier
-  integer library list param rust_library scope string tree
+  integer library list list/integer param rust_library scope string tree
 }.each { |file| require_relative("./runtime/#{file}") }
 
 %w{
