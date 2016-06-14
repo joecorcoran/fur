@@ -19,7 +19,9 @@ else
       result = Fur(input)
       puts("=> #{result.inspect}")
     rescue Fur::Runtime::Error => e
-      puts("=> #{e.inspect}")
+      puts("=> runtime error #{e.inspect}")
+    rescue => e
+      puts("=> implementation error #{e.inspect}")
     end
   end
 
