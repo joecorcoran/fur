@@ -2,12 +2,29 @@ require 'fiddle'
 require 'fiddle/import'
 
 %w{
-  boolean errors exec free function identifier
-  integer library list list/integer param rust_library scope string tree
+  primitive
+  boolean
+  errors
+  exec
+  free
+  function
+  identifier
+  integer
+  library
+  list
+  list/integer
+  param
+  rust_library
+  scope
+  string
+  tree
 }.each { |file| require_relative("./runtime/#{file}") }
 
 %w{
-  arithmetic comparison lists
+  arithmetic
+  comparison
+  lists
+  strings
 }.each { |file| require_relative("./core/#{file}") }
 
 module Fur
@@ -16,6 +33,7 @@ module Fur
       scope.add_library(Core::Arithmetic)
       scope.add_library(Core::Comparison)
       scope.add_library(Core::Lists)
+      scope.add_library(Core::Strings)
     end
 
     def self.call(program)

@@ -1,6 +1,6 @@
 module Fur
   module Runtime
-    class Integer
+    class Integer < Primitive
       include Comparable
 
       attr_reader :value

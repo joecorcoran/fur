@@ -192,5 +192,11 @@ RSpec.describe Fur do
         end
       end
     end
+
+    describe 'strings' do
+      context 'passthru' do
+        specify { expect(Fur(%q{passthru "äbcde"!})).to eq 'äbcde' }
+      end
+    end
   end
 end
