@@ -8,7 +8,7 @@ module Fur
       end
 
       def inspect
-        "<Identifier #{@value}>"
+        @value
       end
 
       def call(scope)

@@ -17,7 +17,7 @@ module Fur
       end
 
       def inspect
-        "<String #{@value.inspect}>"
+        "(string \"#{@value.inspect}\")"
       end
 
       def call(scope)

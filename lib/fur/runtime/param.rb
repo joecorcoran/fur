@@ -8,7 +8,7 @@ module Fur
       end
 
       def inspect
-        "<Param #{@value}:#{@tag}>"
+        "#{@value}:#{@tag}"
       end
 
       def type

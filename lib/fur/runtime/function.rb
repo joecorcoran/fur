@@ -8,7 +8,7 @@ module Fur
       end
 
       def inspect
-        "<Function #{@name.inspect} #{@params.inspect}>"
+        "(function #{@name.inspect} #{@params})"
       end
 
       def anon?

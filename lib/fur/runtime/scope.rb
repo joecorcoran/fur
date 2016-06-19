@@ -9,7 +9,7 @@ module Fur
       end
 
       def inspect
-        "<Scope #{@register.inspect}>"
+        "(scope #{@register.inspect})"
       end
 
       def get(name)

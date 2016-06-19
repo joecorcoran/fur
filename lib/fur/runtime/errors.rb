@@ -2,7 +2,7 @@ module Fur
   module Runtime
     class Error < StandardError
       def inspect
-        "#{self.class.name}! #{message}"
+        "(error #{self.class.name}! #{message})"
       end
     end
 
@@ -12,7 +12,7 @@ module Fur
       end
 
       def message
-        "Expected #{@arg.inspect} to be a #{@type.name}"
+        "expected #{@arg.inspect} to be a #{@type.name}"
       end
     end
 
@@ -22,7 +22,7 @@ module Fur
       end
 
       def message
-        "Identifier #{@identifier_name} not found"
+        "identifier #{@identifier_name} not found"
       end
     end
 

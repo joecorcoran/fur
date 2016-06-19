@@ -6,7 +6,7 @@ module Fur
       end
 
       def inspect
-        "<Exec function=#{@function.inspect} args=#{@args.inspect}>"
+        @function.inspect
       end
 
       def call(scope)

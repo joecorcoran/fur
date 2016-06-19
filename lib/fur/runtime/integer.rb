@@ -20,7 +20,7 @@ module Fur
       end
 
       def inspect
-        "<Integer #{@value}>"
+        "(integer #{@value})"
       end
 
       def call(scope)

@@ -18,7 +18,7 @@ module Fur
       end
 
       def inspect
-        "<Boolean #{@value}>"
+        "(boolean #{symbol})"
       end
 
       def symbol

@@ -12,7 +12,7 @@ module Fur
       end
 
       def inspect
-        "<Tree children=#{@children.inspect}>"
+        "(tree #{@children.map(&:inspect)})"
       end
 
       def call(scope)

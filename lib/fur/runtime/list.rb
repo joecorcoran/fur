@@ -32,7 +32,7 @@ module Fur
       end
 
       def inspect
-        "<List #{@members.inspect}>"
+        "(list #{@members})"
       end
 
       def call(scope)
