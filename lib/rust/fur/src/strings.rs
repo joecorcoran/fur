@@ -1,20 +1,14 @@
-pub mod strings {
-    use std::slice;
-    use libc::c_int;
-
-    #[repr(C)]
-    pub struct FurString {
-        size: c_int,
-        data: *const c_int
-    }
+pub mod strings { 
+    use libc::c_char;
+    use std::ffi::{CStr,CString};
+    use std::str;
+    use unicode_segmentation::UnicodeSegmentation as UniSeg;
 
     #[no_mangle]
-    pub unsafe extern fn passthru(a: &FurString) -> Box<FurString> {
-        let slice = slice::from_raw_parts(a.data, a.size as usize);
-        let new_string = FurString {
-            size: slice.len() as c_int,
-            data: slice.as_ptr()
-        };
-        Box::new(new_string)
+    pub extern fn reverse(s: *const c_char) -> *mut c_char {
+        let cs = unsafe { assert!(!s.is_null()); CStr::from_ptr(s) };
+        let rs = str::from_utf8(cs.to_bytes()).unwrap();
+        let reversed: String = UniSeg::graphemes(rs, true).rev().collect();
+        CString::new(reversed.as_bytes()).unwrap().into_raw()
     }
 }

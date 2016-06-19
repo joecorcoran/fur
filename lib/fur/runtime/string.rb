@@ -1,22 +1,15 @@
+require 'fur/runtime/primitive'
+
 module Fur
   module Runtime
     class String < Primitive
-      def self.ff_type
-        Fiddle::TYPE_VOIDP
+      def self.ffi_type
+        :string
       end
 
-      def self.struct_class
-        Fiddle::CStructBuilder.create(
-          Fiddle::CStruct,
-          [Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP],
-          ['size', 'data']
-        )
-      end
-
-      def self.from_ff(pointer)
-        struct = struct_class.new(pointer)
-        value = struct.data[0, Fiddle::SIZEOF_INT * struct.size].unpack('l*')
-        new(value.pack('U*'))
+      def self.from_ffi(string, &block)
+        block.call if block_given?
+        new(string.force_encoding('UTF-8'))
       end
 
       def initialize(value)
@@ -35,12 +28,8 @@ module Fur
         @value
       end
 
-      def to_ff
-        struct = self.class.struct_class.malloc
-        points = to_rb.unpack('U*')
-        struct.size = points.length 
-        struct.data = points.pack('l*')
-        struct
+      def to_ffi
+        to_rb.force_encoding('UTF-8')
       end
     end
   end

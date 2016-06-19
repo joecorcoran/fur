@@ -1,14 +1,16 @@
+require 'fur/runtime/primitive'
+
 module Fur
   module Runtime
-    class Boolean
+    class Boolean < Primitive
       attr_reader :value
 
-      def self.ff_type
-        Fiddle::TYPE_INT
+      def self.ffi_type
+        :int
       end
 
-      def self.from_ff(ff)
-        ff == 1 ? new(:"#t") : new(:"#f")
+      def self.from_ffi(bool)
+        bool == 1 ? new(:"#t") : new(:"#f")
       end
 
       def initialize(value)
@@ -31,7 +33,7 @@ module Fur
         symbol == :"#t"
       end
 
-      def to_ff
+      def to_ffi
         symbol == :"#t" ? 1 : 0
       end
     end

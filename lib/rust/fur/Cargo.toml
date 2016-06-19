@@ -1,10 +1,11 @@
 [package]
 name = "fur"
 version = "0.1.0"
-authors = ["Joe Corcoran <joecorcoran@gmail.com>"]
+authors = ["Joe Corcoran <joe@corcoran.io>"]
 
 [lib]
 crate_type = ["dylib"]
 
 [dependencies]
-libc = "0.1.10"
+libc = "0.2.12"
+unicode-segmentation = "0.1"

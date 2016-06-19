@@ -1,3 +1,5 @@
+require 'fur/runtime/primitive'
+
 module Fur
   module Runtime
     class Integer < Primitive
@@ -5,12 +7,12 @@ module Fur
 
       attr_reader :value
 
-      def self.ff_type
-        Fiddle::TYPE_INT
+      def self.ffi_type
+        :int
       end
 
-      def self.from_ff(ff)
-        new(ff)
+      def self.from_ffi(int)
+        new(int)
       end
 
       def initialize(value)
@@ -29,7 +31,7 @@ module Fur
         @value.to_i
       end
 
-      def to_ff
+      def to_ffi
         @value.to_i
       end
 

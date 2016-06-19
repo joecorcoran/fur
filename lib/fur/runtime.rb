@@ -1,20 +1,17 @@
-require 'fiddle'
-require 'fiddle/import'
+require 'ffi'
 
 %w{
-  primitive
   boolean
   errors
   exec
-  free
   function
   identifier
   integer
+  libfur
   library
   list
   list/integer
   param
-  rust_library
   scope
   string
   tree

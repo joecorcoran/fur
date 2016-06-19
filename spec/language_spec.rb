@@ -194,8 +194,8 @@ RSpec.describe Fur do
     end
 
     describe 'strings' do
-      context 'passthru' do
-        specify { expect(Fur(%q{passthru "äbcde"!})).to eq 'äbcde' }
+      context 'reverse' do
+        specify { expect(Fur(%q{reverse "xyz"!})).to eq 'zyx' }
       end
     end
   end

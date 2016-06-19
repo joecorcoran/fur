@@ -2,30 +2,28 @@ module Fur
   module Core
     class Lists
       extend Runtime::Library
-      extend Runtime::RustLibrary
+      extend Runtime::Libfur
 
-      rust('libfur') do
-        ff('head', [Runtime::List::Integer], Runtime::Integer)
-        ff('tail', [Runtime::List::Integer], Runtime::List)
-        ff('last', [Runtime::List::Integer], Runtime::Integer)
-      end
+      import(:head, [Runtime::List::Integer], Runtime::Integer)
+      import(:tail, [Runtime::List::Integer], Runtime::List::Integer)
+      import(:last, [Runtime::List::Integer], Runtime::Integer)
 
       define_function(:head, [Runtime::Param.new(:a, :list)]) do |scope|
         list = scope.get(:a)
         raise Runtime::EmptyList.new(:head) unless list.any?
-        Runtime::Integer.from_ff(head.call(list.to_ff))
+        Runtime::Integer.from_ffi(head(list.to_ffi))
       end
 
       define_function(:tail, [Runtime::Param.new(:a, :list)]) do |scope|
         list = scope.get(:a)
         raise Runtime::EmptyList.new(:tail) unless list.any?
-        Runtime::List::Integer.from_ff(tail.call(list.to_ff))
+        Runtime::List::Integer.from_ffi(tail(list.to_ffi))
       end
 
       define_function(:last, [Runtime::Param.new(:a, :list)]) do |scope|
         list = scope.get(:a)
         raise Runtime::EmptyList.new(:last) unless list.any?
-        Runtime::Integer.from_ff(last.call(list.to_ff))
+        Runtime::Integer.from_ffi(last(list.to_ffi))
       end
 
       define_function(:map, [Runtime::Param.new(:a, :list), Runtime::Param.new(:b, :fn)]) do |scope|

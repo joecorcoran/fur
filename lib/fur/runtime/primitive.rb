@@ -1,19 +1,15 @@
 module Fur
   module Runtime
     class Primitive
-      def self.ff_type
+      def self.ffi_type
         raise NotImplementedError
       end
       
-      def self.struct_class
+      def self.from_ffi(pointer)
         raise NotImplementedError
       end
 
-      def self.from_ff(pointer)
-        raise NotImplementedError
-      end
-
-      def to_ff
+      def to_ffi
         raise NotImplementedError
       end
     end

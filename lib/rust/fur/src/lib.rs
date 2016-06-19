@@ -1,4 +1,5 @@
 extern crate libc;
+extern crate unicode_segmentation;
 
 pub mod arithmetic;
 pub mod comparison;
