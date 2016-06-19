@@ -1,10 +1,7 @@
 desc 'Build rust lib'
 task :compile do
-  sh %Q{
-cd ./lib/rust/fur
-cargo clean
-cargo build
-  }.strip
+  system 'tt -o ./lib/fur/parser.rb ./lib/fur/fur.treetop'
+  system 'cd ./lib/rust/fur && cargo clean && cargo build'
 end
 
 require 'rspec/core/rake_task'

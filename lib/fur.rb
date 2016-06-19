@@ -1,5 +1,6 @@
 require 'treetop'
 require_relative './fur/ast'
+require_relative './fur/parser'
 require_relative './fur/runtime'
 require_relative './fur/version'
 
@@ -13,10 +14,7 @@ module Fur
   private
 
   def self.parser
-    @parser ||= begin
-      Treetop.load(File.expand_path('../fur/fur', __FILE__))
-      FurParser.new
-    end
+    @parser ||= GrammarParser.new
   end
 end
 

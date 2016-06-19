@@ -1,65 +1,67 @@
-grammar Fur
-  rule tree
-    (pexp / exp)+ <Tree>
-  end
+module Fur
+  grammar Grammar
+    rule tree
+      (pexp / exp)+ <Tree>
+    end
 
-  rule pexp
-    '(' body:(pexp / body) ')' <Exp>
-  end
+    rule pexp
+      '(' body:(pexp / body) ')' <Exp>
+    end
 
-  rule exp
-    body:body terminator? <Exp>
-  end
+    rule exp
+      body:body terminator? <Exp>
+    end
 
-  rule body
-    list / function / exec / string / integer / boolean / identifier / space
-  end
+    rule body
+      list / function / exec / string / integer / boolean / identifier / space
+    end
 
-  rule function
-    name:('->' / identifier) params:(space / param)* '{' body:tree? '}' <Function>
-  end
+    rule function
+      name:('->' / identifier) params:(space / param)* '{' body:tree? '}' <Function>
+    end
 
-  rule exec
-    name:identifier args:(pexp / list / function / string / integer / boolean / identifier / space)* '!' <Exec>
-  end
+    rule exec
+      name:identifier args:(pexp / list / function / string / integer / boolean / identifier / space)* '!' <Exec>
+    end
 
-  rule list
-    '[' members:(pexp / list / string / integer / boolean / identifier / space)* ']' <List>
-  end
+    rule list
+      '[' members:(pexp / list / string / integer / boolean / identifier / space)* ']' <List>
+    end
 
-  rule string
-    '"' body:[^"]* '"' <String>
-  end
+    rule string
+      '"' body:[^"]* '"' <String>
+    end
 
-  rule integer
-    [\d]+ <Integer>
-  end
+    rule integer
+      [\d]+ <Integer>
+    end
 
-  rule identifier
-    !reserved [a-zA-Z]+ [\w\-_]* <Identifier>
-  end
+    rule identifier
+      !reserved [a-zA-Z]+ [\w\-_]* <Identifier>
+    end
 
-  rule boolean
-    '#' ('t' / 'f') <Boolean>
-  end
+    rule boolean
+      '#' ('t' / 'f') <Boolean>
+    end
 
-  rule param
-    name:(!reserved [a-zA-Z]+ [\w\-_]*) ':' tag:tag <Param>
-  end
+    rule param
+      name:(!reserved [a-zA-Z]+ [\w\-_]*) ':' tag:tag <Param>
+    end
 
-  rule reserved
-    '(' / ')' / '{' / '}' / '!' / boolean
-  end
+    rule reserved
+      '(' / ')' / '{' / '}' / '!' / boolean
+    end
 
-  rule tag
-    [a-z]+
-  end
+    rule tag
+      [a-z]+
+    end
 
-  rule terminator
-    [;\n]
-  end
+    rule terminator
+      [;\n]
+    end
 
-  rule space
-    [\s\t\n\r]+ <Space>
+    rule space
+      [\s\t\n\r]+ <Space>
+    end
   end
 end
